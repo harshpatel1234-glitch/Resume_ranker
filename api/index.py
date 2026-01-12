@@ -29,7 +29,11 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 ALLOWED_EXT = {".pdf", ".docx", ".doc"}
 MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50 MB
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="../templates",
+    static_folder="../static"
+)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_LENGTH
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-secret-key")
@@ -456,6 +460,3 @@ def uploaded_file(filename):
 @app.route("/health")
 def health():
     return "ok", 200
-
-if __name__ == "__main__":
-    app.run(debug=True)
