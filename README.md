@@ -1,4 +1,4 @@
-### 📄 AI Resume Analyzer (ATS Compatibility Checker)
+## 📄 AI Resume Analyzer (ATS Compatibility Checker)
 
 An advanced AI-powered Resume Analyzer that evaluates resumes for ATS (Applicant Tracking System) compatibility, structure quality, skills relevance, readability, and more — with a premium UI/UX dashboard and real-time insights.
 
