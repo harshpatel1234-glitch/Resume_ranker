@@ -16,7 +16,7 @@ An advanced AI-powered Resume Analyzer that evaluates resumes for ATS (Applicant
 ✨ Mobile-Responsive & Premium UI
 ✨ Animated Upload → Result Flow
 
-### 🧠 What This Project Does
+## 🧠 What This Project Does
 
 This system simulates how real ATS systems scan resumes by analyzing:
 
@@ -45,7 +45,7 @@ Animated background shapes
 
 Mobile-first responsive layout
 
-#### 📊 Results Dashboard
+### 📊 Results Dashboard
 
 ATS Score Ring (animated & color-coded)
 
@@ -59,7 +59,7 @@ Floating “Upload Another Resume” action
 
 Background motion effects
 
-#### 🛠️ Tech Stack
+### 🛠️ Tech Stack
 Frontend
 
 HTML5
@@ -84,7 +84,7 @@ Rule-based + heuristic analysis
 
 Custom scoring logic
 
-### 📂 Project Structure
+## 📂 Project Structure
 
 📦 resume-analyzer
  ┣ 📂 static
@@ -126,7 +126,7 @@ Recommendations	Improvement checklist
 🔹 Resume comparison (v1 vs v2)
 🔹 User accounts & history tracking
 
-#### 👨‍💻 Author
+# 👨‍💻 Author
 
 Harsh Bhai (Patel Harsh Vishnubhai)
 🎓 Engineering Student
