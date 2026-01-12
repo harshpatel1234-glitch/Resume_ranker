@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resume Analysis Results</title>
+
+    <!-- Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Global CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <!-- Skill Pill Styling -->
+    <style></style>
+  </head>
+
+  <body class="allow-scroll results-page">
+    <!-- Floating Upload Button -->
+    <a href="{{ url_for('index') }}" class="floating-upload-btn">
+      Upload Another Resume
+    </a>
+
+    {% for r in rows %} {% set a = r.analysis %}
+
+    <div class="results-layout">
+      <!-- ================= LEFT PANEL ================= -->
+      <aside class="results-sidebar">
+        <div class="score-card">
+          <!-- ATS RING -->
+          <div class="ats-ring-wrapper">
+            <svg class="ats-ring" width="160" height="160">
+              <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
+              <circle
+                class="ring-progress"
+                cx="80"
+                cy="80"
+                r="70"
+                style="--percent: {{ a.ats_percentage }};"
+              ></circle>
+            </svg>
+
+            <div class="ats-ring-text">{{ a.ats_percentage }}%</div>
+          </div>
+
+          <div class="ats-label">ATS Compatibility Score</div>
+          <div class="resume-name">{{ r.orig_name }}</div>
+
+          <!-- QUICK CHECKS -->
+          <div class="quick-checks">
+            <h4>Quick Checks</h4>
+            <ul>
+              <li>Resume Structure</li>
+              <li>Resume Length</li>
+              <li>Action Verbs</li>
+              <li>Skills Density</li>
+              <li>Quantified Achievements</li>
+              <li>Readability</li>
+              <li>Contact Information</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ================= RIGHT PANEL ================= -->
+      <main class="results-main">
+        <div class="result-card">
+          <h3>Resume Structure</h3>
+          <p>
+            <strong>Missing Sections:</strong>
+            {% if a.missing_sections %} {{ a.missing_sections | join(", ") }} {%
+            else %} None {% endif %}
+          </p>
+        </div>
+
+        <div class="result-card">
+          <h3>Resume Length</h3>
+          <p>Word Count: {{ a.word_count }}</p>
+          <p>Estimated Pages: {{ a.page_estimate }}</p>
+        </div>
+
+        <div class="result-card">
+          <h3>Skills & Keywords</h3>
+          <!-- IMPORTANT: JS will transform this paragraph -->
+          <p class="skills-text">{{ a.detected_skills | join(", ") }}</p>
+          <p>Skill Density: {{ a.skills_density }}</p>
+        </div>
+
+        <div class="result-card" id="experience-card">
+          <h3>Experience Quality</h3>
+          <p>
+            Quantified Achievements:
+            <span id="quant-count">{{ a.quant_count }}</span>
+          </p>
+          <p>Employment Gaps: {{ a.gaps if a.gaps else "None" }}</p>
+        </div>
+
+        <div class="result-card">
+          <h3>Readability</h3>
+          <p>Score: {{ a.readability }}</p>
+        </div>
+
+        <div class="result-card">
+          <h3>Recommendations</h3>
+          <ul>
+            {% if a.recommendations %} {% for rec in a.recommendations %}
+            <li>{{ rec }}</li>
+            {% endfor %} {% else %}
+            <li>No recommendations available</li>
+            {% endif %}
+          </ul>
+        </div>
+      </main>
+    </div>
+
+    {% endfor %}
+
+    <!-- ================= SKILLS TRANSFORMATION SCRIPT ================= -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".skills-text").forEach((el) => {
+          const skills = el.innerText.split(",");
+          el.innerHTML = skills
+            .map((skill) => `<span class="skill-pill">${skill.trim()}</span>`)
+            .join("");
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const scoreText = document.querySelector(".ats-ring-text");
+        const ring = document.querySelector(".ring-progress");
+
+        if (!scoreText || !ring) return;
+
+        const targetScore = parseInt(scoreText.innerText);
+        let current = 0;
+
+        // Animate number
+        const counter = setInterval(() => {
+          current++;
+          scoreText.innerText = current + "%";
+          if (current >= targetScore) clearInterval(counter);
+        }, 15);
+
+        // Color logic
+        if (targetScore >= 80) {
+          ring.style.stroke = "#22c55e"; // green
+        } else if (targetScore >= 50) {
+          ring.style.stroke = "#facc15"; // yellow
+        } else {
+          ring.style.stroke = "#ef4444"; // red
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const quantEl = document.getElementById("quant-count");
+        const card = document.getElementById("experience-card");
+
+        if (!quantEl || !card) return;
+
+        const count = parseInt(quantEl.innerText);
+        const badge = document.createElement("div");
+
+        badge.style.marginTop = "12px";
+        badge.style.fontWeight = "600";
+
+        if (count >= 8) {
+          badge.innerText = "✔ Strong Experience";
+          badge.style.color = "#16a34a";
+          card.style.borderLeft = "5px solid #22c55e";
+        } else if (count >= 4) {
+          badge.innerText = "⚠ Moderate Experience";
+          badge.style.color = "#ca8a04";
+          card.style.borderLeft = "5px solid #facc15";
+        } else {
+          badge.innerText = "✖ Needs Improvement";
+          badge.style.color = "#dc2626";
+          card.style.borderLeft = "5px solid #ef4444";
+        }
+
+        card.appendChild(badge);
+      });
+    </script>
+
+    <!-- ================= SECTION 6: Employment Gaps Enhancement ================= -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const expCard = document.getElementById("experience-card");
+        if (!expCard) return;
+
+        const gapTextEl = expCard.querySelector("p:last-of-type");
+        if (!gapTextEl) return;
+
+        const gapText = gapTextEl.innerText.toLowerCase();
+
+        const badge = document.createElement("div");
+        badge.style.marginTop = "10px";
+        badge.style.fontWeight = "600";
+        badge.style.fontSize = "14px";
+
+        if (gapText.includes("none")) {
+          badge.innerText = "✔ No Employment Gaps Detected";
+          badge.style.color = "#16a34a";
+          expCard.style.borderLeft = "5px solid #22c55e";
+        } else {
+          badge.innerText = "⚠ Employment Gap Detected";
+          badge.style.color = "#ca8a04";
+          expCard.style.borderLeft = "5px solid #facc15";
+        }
+
+        expCard.appendChild(badge);
+      });
+    </script>
+
+    <!-- ================= SECTION 7: Readability Enhancement ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".result-card").forEach(card => {
+    const title = card.querySelector("h3");
+    if (!title || title.innerText !== "Readability") return;
+
+    const textEl = card.querySelector("p");
+    if (!textEl) return;
+
+    const text = textEl.innerText.toLowerCase();
+
+    let score = 60;
+    let color = "#facc15";
+    let label = "Moderate Readability";
+
+    if (text.includes("easy") || text.includes("good")) {
+      score = 85;
+      color = "#22c55e";
+      label = "✔ Easy to Read";
+    } else if (text.includes("hard") || text.includes("complex")) {
+      score = 35;
+      color = "#ef4444";
+      label = "✖ Hard to Read";
+    }
+
+    // Create progress bar
+    const bar = document.createElement("div");
+    bar.style.height = "8px";
+    bar.style.background = "#e5e7eb";
+    bar.style.borderRadius = "6px";
+    bar.style.marginTop = "10px";
+    bar.style.overflow = "hidden";
+
+    const fill = document.createElement("div");
+    fill.style.height = "100%";
+    fill.style.width = "0%";
+    fill.style.background = color;
+    fill.style.borderRadius = "6px";
+    fill.style.transition = "width 1.2s ease";
+
+    bar.appendChild(fill);
+
+    const labelEl = document.createElement("div");
+    labelEl.innerText = label;
+    labelEl.style.marginTop = "8px";
+    labelEl.style.fontWeight = "600";
+    labelEl.style.color = color;
+
+    card.appendChild(bar);
+    card.appendChild(labelEl);
+
+    setTimeout(() => {
+      fill.style.width = score + "%";
+    }, 200);
+  });
+});
+</script>
+
+
+<!-- ================= SECTION 2: Resume Structure Enhancement ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".result-card").forEach(card => {
+    const title = card.querySelector("h3");
+    if (!title || title.innerText !== "Resume Structure") return;
+
+    const p = card.querySelector("p");
+    if (!p) return;
+
+    const text = p.innerText.toLowerCase();
+
+    // Standard ATS sections
+    const allSections = [
+      "summary",
+      "experience",
+      "skills",
+      "education",
+      "projects",
+      "certifications"
+    ];
+
+    let missing = [];
+
+    if (!text.includes("none")) {
+      const parts = text.split(":");
+      if (parts[1]) {
+        missing = parts[1].split(",").map(s => s.trim().toLowerCase());
+      }
+    }
+
+    // Create container
+    const wrap = document.createElement("div");
+    wrap.style.marginTop = "12px";
+    wrap.style.display = "flex";
+    wrap.style.flexWrap = "wrap";
+    wrap.style.gap = "8px";
+
+    allSections.forEach(section => {
+      const tag = document.createElement("span");
+      tag.style.padding = "6px 12px";
+      tag.style.borderRadius = "999px";
+      tag.style.fontSize = "12px";
+      tag.style.fontWeight = "600";
+
+      if (missing.includes(section)) {
+        tag.innerText = "✖ " + section;
+        tag.style.background = "#fee2e2";
+        tag.style.color = "#b91c1c";
+      } else {
+        tag.innerText = "✔ " + section;
+        tag.style.background = "#dcfce7";
+        tag.style.color = "#166534";
+      }
+
+      wrap.appendChild(tag);
+    });
+
+    // Verdict
+    const verdict = document.createElement("div");
+    verdict.style.marginTop = "12px";
+    verdict.style.fontWeight = "600";
+
+    if (missing.length === 0) {
+      verdict.innerText = "✔ Excellent Resume Structure";
+      verdict.style.color = "#16a34a";
+      card.style.borderLeft = "5px solid #22c55e";
+    } else if (missing.length <= 2) {
+      verdict.innerText = "⚠ Minor Structure Improvements Needed";
+      verdict.style.color = "#ca8a04";
+      card.style.borderLeft = "5px solid #facc15";
+    } else {
+      verdict.innerText = "✖ Poor Structure — ATS Risk";
+      verdict.style.color = "#dc2626";
+      card.style.borderLeft = "5px solid #ef4444";
+    }
+
+    card.appendChild(wrap);
+    card.appendChild(verdict);
+  });
+});
+</script>
+
+<!-- ================= SECTION: Recommendations Enhancement ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".result-card").forEach(card => {
+    const title = card.querySelector("h3");
+    if (!title || title.innerText !== "Recommendations") return;
+
+    const list = card.querySelector("ul");
+    if (!list) return;
+
+    const items = Array.from(list.querySelectorAll("li"));
+    list.innerHTML = "";
+
+    let critical = 0;
+
+    items.forEach(textEl => {
+      const text = textEl.innerText.toLowerCase();
+      const li = document.createElement("li");
+
+      li.style.listStyle = "none";
+      li.style.padding = "10px 12px";
+      li.style.borderRadius = "10px";
+      li.style.marginBottom = "10px";
+      li.style.fontSize = "14px";
+      li.style.fontWeight = "500";
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+      li.style.gap = "10px";
+
+      // Priority detection
+      if (
+        text.includes("missing") ||
+        text.includes("add") ||
+        text.includes("lack") ||
+        text.includes("required")
+      ) {
+        li.innerHTML = "❌ <strong>Critical:</strong> " + textEl.innerText;
+        li.style.background = "#fee2e2";
+        li.style.color = "#991b1b";
+        critical++;
+      }
+      else if (
+        text.includes("improve") ||
+        text.includes("enhance") ||
+        text.includes("optimize")
+      ) {
+        li.innerHTML = "⚠ <strong>Important:</strong> " + textEl.innerText;
+        li.style.background = "#fef3c7";
+        li.style.color = "#92400e";
+      }
+      else {
+        li.innerHTML = "✔ <strong>Optional:</strong> " + textEl.innerText;
+        li.style.background = "#dcfce7";
+        li.style.color = "#166534";
+      }
+
+      list.appendChild(li);
+    });
+
+    // Verdict
+    const verdict = document.createElement("div");
+    verdict.style.marginTop = "14px";
+    verdict.style.fontWeight = "600";
+
+    if (critical >= 3) {
+      verdict.innerText = "✖ High Priority Fixes Required";
+      verdict.style.color = "#dc2626";
+      card.style.borderLeft = "5px solid #ef4444";
+    } else if (critical >= 1) {
+      verdict.innerText = "⚠ Some Important Improvements Needed";
+      verdict.style.color = "#ca8a04";
+      card.style.borderLeft = "5px solid #facc15";
+    } else {
+      verdict.innerText = "✔ Resume is ATS-Ready";
+      verdict.style.color = "#16a34a";
+      card.style.borderLeft = "5px solid #22c55e";
+    }
+
+    card.appendChild(verdict);
+  });
+});
+</script>
+
+
+
+  </body>
+</html>

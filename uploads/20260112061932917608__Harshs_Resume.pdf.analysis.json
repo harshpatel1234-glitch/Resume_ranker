@@ -1,0 +1,69 @@
+{
+  "ats_percentage": 78,
+  "word_count": 381,
+  "page_estimate": 1,
+  "sections_found": {
+    "summary": false,
+    "experience": true,
+    "education": true,
+    "skills": true,
+    "projects": true,
+    "certifications": true
+  },
+  "missing_sections": [
+    "summary"
+  ],
+  "action_verbs_map": {
+    "built": 1,
+    "implemented": 2,
+    "research": 1,
+    "created": 1,
+    "developed": 3,
+    "evaluated": 1
+  },
+  "action_verbs": 9,
+  "detected_skills": [
+    "css",
+    "express",
+    "flask",
+    "html",
+    "javascript",
+    "machine learning",
+    "mongodb",
+    "nlp",
+    "node",
+    "numpy",
+    "pandas",
+    "python",
+    "react",
+    "scikit-learn",
+    "spacy"
+  ],
+  "skills_count": 15,
+  "skills_density": 39.37,
+  "gaps": [],
+  "quant_count": 22,
+  "bullet_info": {
+    "bullets_total": 0,
+    "bullets_markers": {},
+    "long_bullets": 0,
+    "issues": [
+      "No bullet points detected (use bullets for clarity)"
+    ]
+  },
+  "num_spelling": 0,
+  "num_grammar": 0,
+  "repetition_count": 0,
+  "total_issues": 0,
+  "email_found": true,
+  "phone_found": true,
+  "linkedin_found": true,
+  "readability": 13.64,
+  "resume_flow": 69,
+  "recommendations": [
+    "Add missing standard sections: summary",
+    "Use bullet points under each role to improve scannability.",
+    "Simplify sentence structure; aim for clearer, shorter sentences."
+  ],
+  "generated_at": "2026-01-12T06:19:43.495849"
+}

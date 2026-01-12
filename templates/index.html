@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resume Analyzer — Upload</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body class="no-scroll">
+    <div class="bg-effects">
+      <span class="bubble b1"></span>
+      <span class="bubble b2"></span>
+      <span class="bubble b3"></span>
+      <span class="bubble b4"></span>
+
+      <span class="ribbon r1"></span>
+      <span class="ribbon r2"></span>
+    </div>
+
+    <div class="dashboard">
+      <div class="dashboard-card">
+        <div class="dashboard-content">
+          <!-- Header -->
+          <div class="dashboard-header">
+            <h1>Resume Analyzer</h1>
+            <p>Upload your resume and check ATS compatibility instantly</p>
+          </div>
+
+          <!-- Upload Form -->
+          <form
+            id="uploadForm"
+            action="{{ url_for('index') }}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <!-- Upload Box -->
+            <div id="uploadBox" class="upload-box">
+              <div class="upload-icon">📄</div>
+              <div class="upload-title">Drag & Drop your resume</div>
+              <div class="upload-sub">
+                or <button type="button" id="browseBtn">browse files</button>
+              </div>
+
+              <!-- Hidden File Input -->
+              <input
+                id="fileInput"
+                type="file"
+                name="resumes"
+                accept=".pdf,.doc,.docx"
+                multiple
+                hidden
+                required
+              />
+            </div>
+
+            <!-- File Info -->
+            <div id="fileInfo" class="file-info"></div>
+
+            <!-- Action Buttons -->
+            <div class="actions">
+              <button type="submit" class="btn btn-primary">
+                Analyze Resume
+              </button>
+              <button type="reset" id="clearBtn" class="btn btn-secondary">
+                Clear
+              </button>
+            </div>
+          </form>
+
+          <!-- Footer Note -->
+          <div class="note">
+            Supported formats: PDF, DOC, DOCX · Best results with text-based
+            resumes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main JS -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

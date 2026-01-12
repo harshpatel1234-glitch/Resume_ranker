@@ -1,0 +1,1018 @@
+/* Force Poppins everywhere */
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Upload page → no scroll */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Results page → allow vertical scroll */
+body.allow-scroll {
+  overflow-y: auto;
+}
+
+/* =========================
+   GLOBAL RESET & VARIABLES
+========================= */
+:root {
+  --bg: #f3f6ff;
+  --card: #ffffff;
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --secondary: #06b6d4;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 16px;
+  --shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+  font-family: "Poppins", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* =========================
+   DASHBOARD LAYOUT
+========================= */
+.dashboard {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-card {
+  width: 100%;
+  max-width: 960px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 48px;
+  position: relative;
+}
+
+/* Glow accent */
+.dashboard-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.12), transparent 60%);
+  z-index: 0;
+}
+
+.dashboard-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================
+   HEADER
+========================= */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.dashboard-header p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* =========================
+   UPLOAD AREA
+========================= */
+.upload-box {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 46px;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: #f9fbff;
+  cursor: pointer;
+}
+
+.upload-box:hover {
+  border-color: var(--primary);
+  background: #eef2ff;
+}
+
+.upload-box.dragover {
+  border-color: var(--primary);
+  background: #eef2ff;
+  box-shadow: inset 0 0 0 3px rgba(79, 70, 229, 0.08);
+}
+
+.upload-icon {
+  font-size: 48px;
+  margin-bottom: 14px;
+}
+
+.upload-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.upload-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.upload-sub button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.upload-sub button:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   FILE INFO
+========================= */
+.file-info {
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 34px;
+}
+
+.btn {
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Primary button */
+.btn-primary {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #fff;
+  box-shadow: 0 16px 40px rgba(79, 70, 229, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 55px rgba(79, 70, 229, 0.45);
+}
+
+/* Secondary button */
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #eef2ff;
+}
+
+/* =========================
+   FOOT NOTE
+========================= */
+.note {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* =========================
+   BACKGROUND BUBBLES + RIBBONS
+   (CSS ONLY)
+========================= */
+.bg-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(182, 186, 232, 0.12);
+  animation: floatBubbleFast 14s infinite linear;
+}
+
+.b1 {
+  width: 140px;
+  height: 140px;
+  top: 15%;
+  left: 10%;
+  animation-duration: 32s;
+}
+
+.b2 {
+  width: 200px;
+  height: 200px;
+  bottom: 20%;
+  left: 18%;
+  animation-duration: 38s;
+}
+
+.b3 {
+  width: 160px;
+  height: 160px;
+  top: 30%;
+  right: 15%;
+  animation-duration: 34s;
+}
+
+.b4 {
+  width: 240px;
+  height: 240px;
+  bottom: 15%;
+  right: 10%;
+  animation-duration: 42s;
+}
+
+@keyframes floatBubbleFast {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(60px, -80px);
+  }
+  50% {
+    transform: translate(-40px, -140px);
+  }
+  75% {
+    transform: translate(80px, -60px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.ribbon {
+  position: absolute;
+  width: 600px;
+  height: 180px;
+  background: linear-gradient(
+    90deg,
+    rgba(99, 102, 241, 0.15),
+    rgba(236, 72, 153, 0.12),
+    rgba(34, 211, 238, 0.12)
+  );
+  border-radius: 100px;
+  filter: blur(40px);
+  animation: ribbonMove 40s infinite ease-in-out;
+}
+
+.r1 {
+  top: 5%;
+  right: -200px;
+  transform: rotate(-12deg);
+}
+
+.r2 {
+  bottom: 10%;
+  left: -200px;
+  transform: rotate(8deg);
+  animation-duration: 48s;
+}
+
+@keyframes ribbonMove {
+  0% {
+    transform: translateX(0) rotate(-10deg);
+  }
+  50% {
+    transform: translateX(-120px) rotate(-6deg);
+  }
+  100% {
+    transform: translateX(0) rotate(-10deg);
+  }
+}
+
+/* =====================================================
+   FULL-SCREEN IMAGE BACKGROUND (UPLOAD PAGE)
+===================================================== */
+.bg-image-layer {
+  position: fixed;
+  inset: -120px; /* allow movement without scroll */
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-image-layer img {
+  position: absolute;
+  width: 520px;
+  max-width: none;
+  opacity: 0.6;
+  filter: blur(10px);
+  animation: floatImage 40s ease-in-out infinite;
+}
+
+/* Individual image positions */
+.bg-image-layer img:nth-child(1) {
+  top: 5%;
+  left: 5%;
+  animation-duration: 46s;
+}
+
+.bg-image-layer img:nth-child(2) {
+  bottom: 10%;
+  right: 8%;
+  animation-duration: 52s;
+}
+
+.bg-image-layer img:nth-child(3) {
+  top: 35%;
+  left: 55%;
+  animation-duration: 48s;
+}
+
+@keyframes floatImage {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(120px, -80px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* =====================================================
+   RESULT PAGE – CLEAN PROFESSIONAL CSS
+   (Second Page Only)
+===================================================== */
+
+/* Global font */
+body.allow-scroll {
+  font-family: "Poppins", system-ui, sans-serif;
+  background: #f4f7fb;
+  color: #0f172a;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+/* Main wrapper */
+.results-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =====================================================
+   HEADER / ATS SCORE
+===================================================== */
+.results-header {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.results-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ATS score highlight */
+.ats-score {
+  margin-top: 15px;
+  font-size: 48px;
+  font-weight: 800;
+  color: #4f46e5;
+  animation: popScore 0.8s ease-out;
+}
+
+.ats-ring-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 10px auto 18px; /* space BELOW ring */
+}
+
+.ats-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.resume-name {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+}
+
+@keyframes popScore {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.ats-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* =====================================================
+   TWO COLUMN LAYOUT (6 + 6)
+===================================================== */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Column wrapper */
+.results-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* =====================================================
+   RESULT CARD
+===================================================== */
+.result-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+}
+
+.result-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.result-card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* =====================================================
+   SCORE COLORS (OPTIONAL)
+===================================================== */
+.good {
+  border-left: 4px solid #22c55e;
+}
+
+.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.critical {
+  border-left: 4px solid #ef4444;
+}
+
+/* =====================================================
+   FOOTER ACTION
+===================================================== */
+.results-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.results-footer a {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.results-footer a:hover {
+  text-decoration: underline;
+}
+
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+}
+
+
+/* =====================================================
+   RESULT PAGE — PREMIUM ATS DASHBOARD (REFINED)
+===================================================== */
+
+.results-page {
+  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+/* ================= LAYOUT ================= */
+
+.results-layout {
+  max-width: 1400px;
+  margin: auto;
+  padding: 28px 24px 50px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 36px;
+}
+
+/* ================= LEFT PANEL ================= */
+
+.results-sidebar {
+  position: sticky;
+  top: 28px;
+}
+
+.score-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
+}
+
+/* ================= ATS RING ================= */
+
+.ats-ring-wrapper {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 18px;
+}
+
+.ats-ring {
+  transform: rotate(-90deg);
+}
+
+/* Ring base */
+.ring-bg {
+  fill: none;
+  stroke: #e5e7eb;
+  stroke-width: 12;
+}
+
+/* Ring progress (NO outside glow now) */
+.ring-progress {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 440;
+  stroke-dashoffset: calc(440 - (440 * var(--percent)) / 100);
+  stroke: #22c55e;
+  animation: ringGrow 1.6s ease forwards;
+}
+
+@keyframes ringGrow {
+  from {
+    stroke-dashoffset: 440;
+  }
+}
+
+/* ===== CENTERED PERCENT TEXT (FIXED) ===== */
+
+.ats-ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+/* Labels */
+.ats-label {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.resume-name {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 6px;
+  color: #334155;
+}
+
+/* ================= QUICK CHECKS ================= */
+
+.quick-checks {
+  margin-top: 30px;
+}
+
+.quick-checks h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #0f172a;
+}
+
+.quick-checks ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quick-checks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #dcfce7;
+}
+
+.quick-checks li::before {
+  content: "✔";
+  color: #22c55e;
+  font-size: 12px;
+}
+
+/* ================= RIGHT PANEL ================= */
+
+.results-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Cards aligned tighter at top */
+.result-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 22px 50px rgba(15, 23, 42, 0.14);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 34px 80px rgba(15, 23, 42, 0.22);
+}
+
+.result-card h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.result-card p,
+.result-card li {
+  font-size: 14px;
+  color: #475569;
+}
+
+/* ================= SKILLS — PREMIUM TAG CLOUD ================= */
+
+/* Target Skills & Keywords card only */
+.result-card h3:contains("Skills") + p,
+.result-card h3:contains("Skills") ~ p:first-of-type {
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, #eef2ff, #f8fafc);
+  border-radius: 16px;
+  border: 1px solid #c7d2fe;
+  color: #1e3a8a;
+
+  font-size: 14px;
+  line-height: 1.9;
+  font-weight: 500;
+
+  letter-spacing: 0.2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Make commas visually separate like tags */
+.result-card h3:contains("Skills") + p {
+  word-spacing: 6px;
+}
+
+/* Skill density spacing */
+.result-card h3:contains("Skills") ~ p:last-of-type {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.skill-pill {
+  display: inline-block;
+  background: #e0e7ff;
+  color: #1e40af;
+  padding: 6px 14px;
+  margin: 6px 6px 0 0;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ================= FLOATING UPLOAD BUTTON ================= */
+
+.floating-upload-btn {
+  position: fixed;
+  top: 22px;
+  right: 26px;
+  z-index: 1000;
+  padding: 14px 28px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #2563eb, #06b6d4);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 18px 45px rgba(37, 99, 235, 0.45);
+  transition: all 0.3s ease;
+}
+
+.floating-upload-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 70px rgba(37, 99, 235, 0.65);
+}
+
+
+/* =========================================
+   UPLOAD → RESULT LOADER
+========================================= */
+
+.loader-spinner {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 6px solid #e5e7eb;
+  border-top-color: #2563eb;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =====================================================
+   RESPONSIVE FIX — RESULT PAGE
+===================================================== */
+
+@media (max-width: 1024px) {
+  .results-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .results-sidebar {
+    position: relative;
+    top: unset;
+  }
+}
+
+@media (max-width: 640px) {
+  .results-layout {
+    padding: 20px 14px 80px;
+  }
+
+  .score-card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .ats-ring-wrapper {
+    width: 130px;
+    height: 130px;
+  }
+
+  .ats-ring-text {
+    font-size: 28px;
+  }
+
+  .results-main {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .result-card h3 {
+    font-size: 16px;
+  }
+
+  /* Floating button becomes bottom CTA */
+  .floating-upload-btn {
+    top: auto;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    width: calc(100% - 32px);
+    text-align: center;
+    border-radius: 16px;
+  }
+}
+
+
+/* =====================================================
+   RESPONSIVE FIX — UPLOAD PAGE
+===================================================== */
+
+/* ---------- MOBILE FIRST ---------- */
+@media (max-width: 640px) {
+
+  body.no-scroll {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .dashboard {
+    min-height: 100vh;
+    padding: 20px 16px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dashboard-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+
+  .dashboard-header {
+    margin-bottom: 24px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+
+  .dashboard-header p {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  /* Upload box becomes HERO */
+  .upload-box {
+    padding: 28px 18px;
+    min-height: 180px;
+    border-radius: 18px;
+  }
+
+  .upload-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+
+  .upload-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .upload-sub {
+    font-size: 14px;
+  }
+
+  .upload-sub button {
+    font-size: 14px;
+  }
+
+  .file-info {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  /* Buttons stack nicely */
+  .actions {
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .actions .btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  .note {
+    font-size: 12px;
+    margin-top: 16px;
+    line-height: 1.4;
+  }
+
+  /* Background stays but softer */
+  .bg-effects {
+    opacity: 0.35;
+    filter: blur(90px);
+  }
+}
+
+/* ---------- TABLET ---------- */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .dashboard {
+    padding: 28px;
+  }
+
+  .dashboard-card {
+    max-width: 640px;
+    padding: 40px;
+  }
+}
+
+/* ---------- DESKTOP (UNCHANGED PREMIUM LOOK) ---------- */
+@media (min-width: 1025px) {
+  .dashboard {
+    padding: 40px;
+  }
+
+  .dashboard-card {
+    max-width: 960px;
+    padding: 48px;
+  }
+}
