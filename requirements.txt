@@ -1,11 +1,8 @@
 flask
 gunicorn
-spacy
-scikit-learn
-numpy
 pdfplumber
 python-docx
-pyspellchecker
-PyMuPDF
-pillow
-language-tool-python
+numpy
+pandas
+scikit-learn
+spacy
