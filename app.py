@@ -413,7 +413,18 @@ def index():
             return redirect(request.url)
 
         session["upload_meta"] = saved_meta
-        return redirect(url_for("results"))
+        return render_template("results.html", rows=[
+    {
+        "orig_name": m["orig_name"],
+        "stored_name": m["stored_name"],
+        "size": m["size"],
+        "analysis": analyze_text(
+            extract_text_from_pdf(m["path"]) if m["path"].endswith(".pdf")
+            else extract_text_from_docx(m["path"])
+        )
+    }
+    for m in saved_meta
+])
 
     return render_template("index.html")
 
@@ -458,4 +469,4 @@ def health():
     return "ok", 200
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
